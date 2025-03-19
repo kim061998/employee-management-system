@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3>Employee Details</h3>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>ID:</strong> {{ employee.id }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Name:</strong> {{ employee.name }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Position:</strong> {{ employee.position }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Department:</strong> {{ employee.department }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Contact:</strong> {{ employee.contact }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Date of Birth:</strong> {{ employee.date_of_birth.strftime('%Y-%m-%d') if employee.date_of_birth else 'N/A' }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <strong>Address:</strong> {{ employee.address }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <strong>Photo:</strong>
+                    {% if employee.photo %}
+                    <img src="{{ url_for('static', filename='Emp_photo/' ~ employee.photo) }}" alt="Employee Photo" class="img-thumbnail" style="max-width: 200px;">
+                    {% else %}
+                    <p>No photo available</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button class="btn btn-secondary no-print" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex position-relative">
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar bg-dark">
+        <div class="d-flex flex-column p-3 text-white" style="width: 280px; height: 100vh;">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <i class="fas fa-users-cog fs-4 me-2"></i>
+                <span class="fs-4">EMS</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto flex-grow-1">
+                <li class="nav-item">
+                    <a href="{{ url_for('routes.dashboard') }}" class="nav-link active">
+                        <i class="fas fa-tachometer-alt me-2"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('routes.add_employee') }}" class="nav-link text-white hover-effect">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Add Employee
+                    </a>
+                </li>
+            </ul>
+            <div class="dropdown text-center mb-3">
+                <a href="#" class="d-flex align-items-center justify-content-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user-circle fs-4 me-2"></i>
+                    <strong>{{ 'Admin' if current_user.role == 'admin' else 'Encoder' }}</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="width: 220px;">
+                    <li><a class="dropdown-item" href="{{ url_for('routes.profile') }}"><i class="fas fa-user-cog me-2"></i>Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{ url_for('routes.logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
